@@ -152,30 +152,31 @@ export default class AppClass extends React.Component {
     // Use a POST request to send a payload to the server.
     evt.preventDefault();
 
-    const [x, y] = this.getXY();
+    evt.preventDefault();
+    const { x, y } = this.getXY();
     const { steps, email } = this.state;
-     let message;
-    // const payload = {
-    //   x, y, steps, email
-    // };
-
-  axios.post('http://localhost:9000/api/result', {x, y, steps, email})
+  
+    axios.post('http://localhost:9000/api/result', { x, y, steps, email })
+      .then(response => {
+        // Assuming that your API returns an object with a message property
+        this.setState({ message: response.data.message });
+      })
+      .catch(error => {
+        // If an error occurred, we set the message to the error message
+        this.setState({ message: 'An error occurred: ' + error.message });
+      })
+      .finally(() => {
+        // Reset the email to initialEmail after the request is done
+        this.setState({ email: initialEmail });
+      });
+  }
+  
 // .then(response => {
 //   if (!response.ok) {
 //     throw new Error('Network response was not ok');
 //   }
 //   return response.json();
 // })
-.then(data => {
-  this.setState({ message: data.message });
-})
-.catch(error => {
-  this.setState({ message: 'An error occurred: ' + error.message });
-})
-.finally(() => {
-    this.setState({...this.state, message, email: initialEmail})
-})
-  }
 
 
   render() {
