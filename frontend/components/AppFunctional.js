@@ -120,15 +120,18 @@ export default function AppFunctional(props) {
       setMessage(data.message); // Assuming 'message' is a field in your API response
     })
     .catch(error => {
-      setMessage('An error occurred: ' + error.message);
-    });
+          setMessage(error.response.data.message);
+    })
+    .finally(() => {
+          setEmail(initialEmail);
+    })
 }
 
   return (
     <div id="wrapper" className={props.className}>
       <div className="info">
         <h3 id="coordinates">{getXYMessage()}</h3>
-        <h3 id="steps">You moved {steps} times</h3>
+        <h3 id="steps">{`You moved ${steps} time${steps == 1 ? '' : 's'}`}</h3>
       </div>
       <div id="grid">
         {

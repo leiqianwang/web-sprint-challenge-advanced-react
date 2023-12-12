@@ -163,7 +163,9 @@ export default class AppClass extends React.Component {
       })
       .catch(error => {
         // If an error occurred, we set the message to the error message
-        this.setState({ message: 'An error occurred: ' + error.message });
+        console.log(error);
+        this.setState({  message: error.response.data.message });
+        
       })
       .finally(() => {
         // Reset the email to initialEmail after the request is done
@@ -189,7 +191,7 @@ export default class AppClass extends React.Component {
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">{this.getXYMessage()}</h3>
-          <h3 id="steps">You moved {steps} times</h3>
+          <h3 id="steps">{`You moved ${steps} time${steps == 1 ? '' : 's'}`}</h3>
         </div>
         <div id="grid">
           {
